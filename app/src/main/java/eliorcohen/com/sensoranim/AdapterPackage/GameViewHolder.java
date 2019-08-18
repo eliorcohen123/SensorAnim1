@@ -7,13 +7,13 @@ import android.widget.TextView;
 
 import eliorcohen.com.sensoranim.R;
 
-class FaceViewHolder extends RecyclerView.ViewHolder {
+class GameViewHolder extends RecyclerView.ViewHolder {
 
     TextView name1;
     TextView score1;
     LinearLayout linearLayout1;
 
-    FaceViewHolder(View itemView) {
+    GameViewHolder(View itemView) {
         super(itemView);
         name1 = itemView.findViewById(R.id.myName1);
         score1 = itemView.findViewById(R.id.myScore1);

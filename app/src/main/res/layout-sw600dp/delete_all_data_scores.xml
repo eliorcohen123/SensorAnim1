@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".DeleteAllDataFavorites">
+    tools:context=".ClassesPackage.DeleteAllDataFavorites">
 
     <Button
         android:id="@+id/btnOK"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -29,8 +29,8 @@
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -50,7 +50,7 @@
     <TextView
         android:id="@+id/textView14"
         android:layout_width="345dp"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -60,7 +60,7 @@
         android:gravity="center"
         android:text="Are you sure you want to delete all your data of my scores?"
         android:textColor="@color/colorWhite"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"

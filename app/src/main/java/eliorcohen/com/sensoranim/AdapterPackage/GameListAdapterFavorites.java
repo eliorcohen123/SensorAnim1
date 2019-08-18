@@ -12,25 +12,25 @@ import java.util.List;
 import eliorcohen.com.sensoranim.R;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 
-public class GameListAdapterFavorites extends RecyclerView.Adapter<FaceViewHolder> {
+public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolder> {
 
     private final LayoutInflater mInflater;
-    private List<GameFavorites> mFaceList;
+    private List<GameFavorites> mGameList;
 
     public GameListAdapterFavorites(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public FaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.recyclerview_item_favorites, parent, false);
-        return new FaceViewHolder(itemView);
+    public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(R.layout.recyclerview_item_score, parent, false);
+        return new GameViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final FaceViewHolder holder, final int position) {
-        if (mFaceList != null) {
-            final GameFavorites current = mFaceList.get(position);
+    public void onBindViewHolder(final GameViewHolder holder, final int position) {
+        if (mGameList != null) {
+            final GameFavorites current = mGameList.get(position);
             try {
                 holder.name1.setText(current.getName());
                 holder.score1.setText(current.getScore());
@@ -47,12 +47,12 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<FaceViewHolde
             setFadeAnimation(holder.itemView);
         } else {
             // Covers the case of data not being ready yet.
-            holder.name1.setText("No FaceSearch");
+            holder.name1.setText("No GameSearch");
         }
     }
 
-    public void setGames(List<GameFavorites> faceFavorites) {
-        mFaceList = faceFavorites;
+    public void setGames(List<GameFavorites> gameFavorites) {
+        mGameList = gameFavorites;
         notifyDataSetChanged();
     }
 
@@ -60,13 +60,13 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<FaceViewHolde
     // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
-        if (mFaceList != null)
-            return mFaceList.size();
+        if (mGameList != null)
+            return mGameList.size();
         else return 0;
     }
 
     public GameFavorites getGameAtPosition(int position) {
-        return mFaceList.get(position);
+        return mGameList.get(position);
     }
 
     private void setFadeAnimation(View view) {

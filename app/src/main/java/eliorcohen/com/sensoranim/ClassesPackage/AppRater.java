@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.app.Dialog;
 import android.content.Context;

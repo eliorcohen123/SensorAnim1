@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -34,6 +34,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import eliorcohen.com.sensoranim.AdapterPackage.GameListAdapterFavorites;
+import eliorcohen.com.sensoranim.OthersPackage.ItemDecoration;
+import eliorcohen.com.sensoranim.OthersPackage.NetworkDataProviderFavorites;
+import eliorcohen.com.sensoranim.R;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.IGameDataReceived;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameViewModelFavorites;
@@ -48,13 +51,13 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private NetWorkDataProviderFavorites netWorkDataProviderFavorites;
+    private NetworkDataProviderFavorites networkDataProviderFavorites;
     private ItemDecoration itemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites);
+        setContentView(R.layout.activity_scores);
 
         initUI();
         showUI();
@@ -70,7 +73,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         swipeRefreshLayout = findViewById(R.id.swipe_containerFrag);
         recyclerView = findViewById(R.id.game_list);
 
-        netWorkDataProviderFavorites = new NetWorkDataProviderFavorites();
+        networkDataProviderFavorites = new NetworkDataProviderFavorites();
         adapterFavorites = new GameListAdapterFavorites(this);
 
         p = new Paint();
@@ -143,7 +146,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
     }
 
     private void getData() {
-        netWorkDataProviderFavorites.getGameByLocation(this);
+        networkDataProviderFavorites.getGameByLocation(this);
     }
 
     private void enableSwipe() {

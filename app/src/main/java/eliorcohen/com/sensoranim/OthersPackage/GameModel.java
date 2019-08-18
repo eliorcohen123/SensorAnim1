@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.OthersPackage;
 
 import java.io.Serializable;
 

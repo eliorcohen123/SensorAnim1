@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import eliorcohen.com.sensoranim.OthersPackage.NearByApplication;
+import eliorcohen.com.sensoranim.R;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameViewModelFavorites;
 
 public class DeleteAllDataFavorites extends AppCompatActivity implements View.OnClickListener {
@@ -17,7 +19,7 @@ public class DeleteAllDataFavorites extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.delete_all_data_favorites);
+        setContentView(R.layout.delete_all_data_scores);
 
         initUI();
         initListeners();

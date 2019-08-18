@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.OthersPackage;
 
 import android.os.AsyncTask;
 
@@ -8,7 +8,7 @@ import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameRepositoryFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.IGameDataReceived;
 
-public class NetWorkDataProviderFavorites {
+public class NetworkDataProviderFavorites {
 
     public void getGameByLocation(IGameDataReceived resultListener_) {
 
@@ -24,16 +24,16 @@ public class NetWorkDataProviderFavorites {
     private class GetGameAsyncTask extends AsyncTask<String, Integer, IGameDataReceived> {
 
         private ArrayList<GameModel> mGameModels;
-        private IGameDataReceived mIFaceDataReceived;
+        private IGameDataReceived mIGameDataReceived;
 
-        public GetGameAsyncTask(IGameDataReceived iFaceDataReceived) {
-            mIFaceDataReceived = iFaceDataReceived;
+        public GetGameAsyncTask(IGameDataReceived iGameDataReceived) {
+            mIGameDataReceived = iGameDataReceived;
         }
 
         @Override
         protected IGameDataReceived doInBackground(String... urls) {
             mGameModels = new ArrayList<GameModel>();
-            GameRepositoryFavorites faceRepository = new GameRepositoryFavorites(NearByApplication.getApplication());
+            GameRepositoryFavorites gameRepositoryFavorites = new GameRepositoryFavorites(NearByApplication.getApplication());
             ArrayList<GameFavorites> listGame = new ArrayList<>();
             for (GameModel gameModel : mGameModels) {
                 try {
@@ -43,16 +43,16 @@ public class NetWorkDataProviderFavorites {
 
                 }
             }
-            faceRepository.insertPlace(listGame);
-            return mIFaceDataReceived;
+            gameRepositoryFavorites.insertPlace(listGame);
+            return mIGameDataReceived;
         }
 
         @Override
-        protected void onPostExecute(IGameDataReceived iFaceDataReceived_) {
+        protected void onPostExecute(IGameDataReceived iGameDataReceived) {
             try {
-                iFaceDataReceived_.onGameDataReceived();
+                iGameDataReceived.onGameDataReceived();
             } catch (Exception e) {
-                iFaceDataReceived_.onGameDataReceived();
+                iGameDataReceived.onGameDataReceived();
             }
         }
     }

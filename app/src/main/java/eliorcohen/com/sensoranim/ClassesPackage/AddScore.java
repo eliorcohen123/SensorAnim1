@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import eliorcohen.com.sensoranim.R;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameViewModelFavorites;
 

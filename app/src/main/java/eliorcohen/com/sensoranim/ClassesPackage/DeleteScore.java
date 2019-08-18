@@ -1,9 +1,11 @@
-package eliorcohen.com.sensoranim;
+package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import eliorcohen.com.sensoranim.R;
 
 public class DeleteScore extends AppCompatActivity implements View.OnClickListener {
 
@@ -12,7 +14,7 @@ public class DeleteScore extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.delete_face);
+        setContentView(R.layout.delete_score);
 
         initUI();
         initListeners();
