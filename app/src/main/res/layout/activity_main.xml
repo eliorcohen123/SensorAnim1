@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightBlue"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="Catch Ball"
+        android:textColor="@color/colorBrown"
+        android:textSize="50sp" />
+
+    <Button
+        android:id="@+id/btnStartGame"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:background="@color/colorBrown"
+        android:text="Start new game"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/btnShowTop"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorBrown"
+        android:text="Top scores"
+        android:textColor="@color/colorPrimary" />
+</LinearLayout>
