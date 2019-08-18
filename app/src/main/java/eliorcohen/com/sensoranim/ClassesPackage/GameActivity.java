@@ -101,11 +101,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             if (idNum1 == 5000 && idNum2 == 5000) {
                 rand = new Random();
                 if (diagonalInches >= 6.5) {
-                    n1 = rand.nextInt(570);
-                    n2 = rand.nextInt(836);
+                    n1 = rand.nextInt(screenWidth - 30);
+                    n2 = rand.nextInt(screenHeight - 150);
                 } else {
-                    n1 = rand.nextInt(1270);
-                    n2 = rand.nextInt(2150);
+                    n1 = rand.nextInt(screenWidth - 90);
+                    n2 = rand.nextInt(screenHeight - 300);
                 }
 
                 editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
