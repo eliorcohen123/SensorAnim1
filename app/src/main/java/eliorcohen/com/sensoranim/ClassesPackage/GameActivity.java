@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import java.util.Random;
 import java.util.Timer;
@@ -113,33 +114,63 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 editorRand.apply();
             }
 
-            centerX1 = x + 13;
-            centerY1 = y + 13;
-            distanceX1 = idNum1 - centerX1;
-            distanceY1 = idNum2 - centerY1;
-            distanceX2 = x - centerX1;
-            distanceY2 = y - centerY1;
+            if (diagonalInches >= 6.5) {
+                centerX1 = x + 13;
+                centerY1 = y + 13;
+                distanceX1 = idNum1 - centerX1;
+                distanceY1 = idNum2 - centerY1;
+                distanceX2 = x - centerX1;
+                distanceY2 = y - centerY1;
 
-            centerX11 = x - 13;
-            centerY11 = y + 13;
-            distanceX11 = idNum1 - centerX11;
-            distanceY11 = idNum2 - centerY11;
-            distanceX22 = x - centerX11;
-            distanceY22 = y - centerY11;
+                centerX11 = x - 13;
+                centerY11 = y + 13;
+                distanceX11 = idNum1 - centerX11;
+                distanceY11 = idNum2 - centerY11;
+                distanceX22 = x - centerX11;
+                distanceY22 = y - centerY11;
 
-            centerX111 = x + 13;
-            centerY111 = y - 13;
-            distanceX111 = idNum1 - centerX111;
-            distanceY111 = idNum2 - centerY111;
-            distanceX222 = x - centerX111;
-            distanceY222 = y - centerY111;
+                centerX111 = x + 13;
+                centerY111 = y - 13;
+                distanceX111 = idNum1 - centerX111;
+                distanceY111 = idNum2 - centerY111;
+                distanceX222 = x - centerX111;
+                distanceY222 = y - centerY111;
 
-            centerX1111 = x - 13;
-            centerY1111 = y - 13;
-            distanceX1111 = idNum1 - centerX1111;
-            distanceY1111 = idNum2 - centerY1111;
-            distanceX2222 = x - centerX1111;
-            distanceY2222 = y - centerY1111;
+                centerX1111 = x - 13;
+                centerY1111 = y - 13;
+                distanceX1111 = idNum1 - centerX1111;
+                distanceY1111 = idNum2 - centerY1111;
+                distanceX2222 = x - centerX1111;
+                distanceY2222 = y - centerY1111;
+            } else {
+                centerX1 = x + 13 * 3;
+                centerY1 = y + 13 * 3;
+                distanceX1 = idNum1 - centerX1;
+                distanceY1 = idNum2 - centerY1;
+                distanceX2 = x - centerX1;
+                distanceY2 = y - centerY1;
+
+                centerX11 = x - 13 * 3;
+                centerY11 = y + 13 * 3;
+                distanceX11 = idNum1 - centerX11;
+                distanceY11 = idNum2 - centerY11;
+                distanceX22 = x - centerX11;
+                distanceY22 = y - centerY11;
+
+                centerX111 = x + 13 * 3;
+                centerY111 = y - 13 * 3;
+                distanceX111 = idNum1 - centerX111;
+                distanceY111 = idNum2 - centerY111;
+                distanceX222 = x - centerX111;
+                distanceY222 = y - centerY111;
+
+                centerX1111 = x - 13 * 3;
+                centerY1111 = y - 13 * 3;
+                distanceX1111 = idNum1 - centerX1111;
+                distanceY1111 = idNum2 - centerY1111;
+                distanceX2222 = x - centerX1111;
+                distanceY2222 = y - centerY1111;
+            }
 
             if ((distanceX1 * distanceX1) + (distanceY1 * distanceY1) < (distanceX2 * distanceX2) + (distanceY2 * distanceY2) ||
                     (distanceX11 * distanceX11) + (distanceY11 * distanceY11) < (distanceX22 * distanceX22) + (distanceY22 * distanceY22) ||
@@ -231,6 +262,14 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             idNum1 = prefsRand.getInt("random1", 1000);
             idNum2 = prefsRand.getInt("random2", 1000);
 
+            // Tablet/Phone mode
+            DisplayMetrics metrics = new DisplayMetrics();
+            WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+            windowManager.getDefaultDisplay().getMetrics(metrics);
+
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             if (diagonalInches >= 6.5) {
                 oval1 = new RectF(x, y, x + width, y + height);
                 oval2 = new RectF(idNum1, idNum2, idNum1 + width, idNum2 + height);

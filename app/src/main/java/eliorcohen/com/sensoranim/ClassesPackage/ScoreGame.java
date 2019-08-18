@@ -205,7 +205,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         if (id == R.id.intentMainActivity) {
             Intent intentBackMainActivity = new Intent(ScoreGame.this, MainActivity.class);
             startActivity(intentBackMainActivity);
-        } else if (id == R.id.deleteAllDataFavorites) {
+        } else if (id == R.id.deleteAllDataScores) {
             Intent intentDeleteAllData = new Intent(ScoreGame.this, DeleteAllDataFavorites.class);
             startActivity(intentDeleteAllData);
         }
