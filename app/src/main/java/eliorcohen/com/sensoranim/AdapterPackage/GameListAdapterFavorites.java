@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import eliorcohen.com.sensoranim.R;
@@ -51,8 +53,13 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         }
     }
 
-    public void setGames(List<GameFavorites> gameFavorites) {
-        mGameList = gameFavorites;
+    public void setGames(List<GameFavorites> gameList) {
+        mGameList = gameList;
+        Collections.sort(mGameList, new Comparator<GameFavorites>() {
+            public int compare(GameFavorites obj1, GameFavorites obj2) {
+                return obj2.getScore().compareToIgnoreCase(obj1.getScore()); // To compare string values
+            }
+        });
         notifyDataSetChanged();
     }
 
