@@ -67,6 +67,8 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
 //                // Pass from AddScore to ScoreGame
                 Intent intentAddInternetToMain = new Intent(AddScore.this, ScoreGame.class);
                 startActivity(intentAddInternetToMain);
+
+                finish();
                 break;
             case R.id.btnBack:
                 Intent intentMainActivity = new Intent(AddScore.this, MainActivity.class);

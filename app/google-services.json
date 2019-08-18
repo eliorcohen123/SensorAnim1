@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "201658544624",
+    "firebase_url": "https://catch-ball-7ab7c.firebaseio.com",
+    "project_id": "catch-ball-7ab7c",
+    "storage_bucket": "catch-ball-7ab7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201658544624:android:e709bfdece71cfbd",
+        "android_client_info": {
+          "package_name": "eliorcohen.com.sensoranim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201658544624-vi9ocsrcmbtmvjg2os683rhlgon7s8qe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDodrirVP3EhRIBsV-ctu84stF3-wSRHu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201658544624-vi9ocsrcmbtmvjg2os683rhlgon7s8qe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import java.util.Random;
@@ -28,6 +29,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private RectF oval1, oval2;
     private Paint p1, p2, p3;
     private int x, y, n1, n2, myScore = 0, myFinish = 0, myTime = 5000, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2, centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111, distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111, distanceX2222, distanceY2222;
+    private double diagonalInches;
     private Random rand;
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
@@ -76,16 +78,35 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         // TODO Auto-generated method stub
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            x -= (int) event.values[0];
-            y += (int) event.values[1];
+            // Tablet/Phone mode
+            DisplayMetrics metrics = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-            idNum1 = prefsRand.getInt("random1", 1000);
-            idNum2 = prefsRand.getInt("random2", 1000);
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
-            if (idNum1 == 1000 && idNum2 == 1000) {
+            if (diagonalInches >= 6.5) {
+                x -= (int) event.values[0];
+                y += (int) event.values[1];
+            } else {
+                x -= (int) event.values[0] * 3;
+                y += (int) event.values[1] * 3;
+            }
+
+            idNum1 = prefsRand.getInt("random1", 5000);
+            idNum2 = prefsRand.getInt("random2", 5000);
+
+            if (idNum1 == 5000 && idNum2 == 5000) {
                 rand = new Random();
-                n1 = rand.nextInt(570);
-                n2 = rand.nextInt(836);
+                if (diagonalInches >= 6.5) {
+                    n1 = rand.nextInt(570);
+                    n2 = rand.nextInt(836);
+                } else {
+                    n1 = rand.nextInt(1270);
+                    n2 = rand.nextInt(2150);
+                }
+
                 editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
                 editorRand.putInt("random1", n1);
                 editorRand.putInt("random2", n2);
@@ -131,11 +152,20 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 resetTimer();
                 getTimer();
             }
-            if (screenWidth - 30 < x || x < 0) {
-                x += (int) event.values[0];
-            }
-            if (screenHeight - 150 < y || y < 0) {
-                y -= (int) event.values[1];
+            if (diagonalInches >= 6.5) {
+                if (screenWidth - 30 < x || x < 0) {
+                    x += (int) event.values[0];
+                }
+                if (screenHeight - 150 < y || y < 0) {
+                    y -= (int) event.values[1];
+                }
+            } else {
+                if (screenWidth - 90 < x || x < 0) {
+                    x += (int) event.values[0] * 3;
+                }
+                if (screenHeight - 300 < y || y < 0) {
+                    y -= (int) event.values[1] * 3;
+                }
             }
         }
     }
@@ -180,6 +210,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             Intent intent = new Intent(GameActivity.this, AddScore.class);
             intent.putExtra("score1", myScore);
             startActivity(intent);
+
+            finish();
         }
     }
 
@@ -195,22 +227,38 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         @Override
         protected void onDraw(Canvas canvas) {
-            oval1 = new RectF(x, y, x + width, y + height);
             prefsRand = getSharedPreferences("random", MODE_PRIVATE);
             idNum1 = prefsRand.getInt("random1", 1000);
             idNum2 = prefsRand.getInt("random2", 1000);
-            oval2 = new RectF(idNum1, idNum2, idNum1 + width, idNum2 + height);
+
+            if (diagonalInches >= 6.5) {
+                oval1 = new RectF(x, y, x + width, y + height);
+                oval2 = new RectF(idNum1, idNum2, idNum1 + width, idNum2 + height);
+            } else {
+                oval1 = new RectF(x, y, x + width * 3, y + height * 3);
+                oval2 = new RectF(idNum1, idNum2, idNum1 + width * 3, idNum2 + height * 3);
+            }
             p1 = new Paint();
             p1.setColor(Color.BLUE);
             p2 = new Paint();
             p2.setColor(Color.BLACK);
             p3 = new Paint();
-            p3.setColor(Color.WHITE);
             p3.setColor(Color.BLACK);
-            p3.setTextSize(20);
+
+            if (diagonalInches >= 6.5) {
+                p3.setTextSize(20);
+            } else {
+                p3.setTextSize(60);
+            }
+
             canvas.drawOval(oval1, p1);
             canvas.drawOval(oval2, p2);
-            canvas.drawText("Score: " + myScore, 10, 880, p3);
+
+            if (diagonalInches >= 6.5) {
+                canvas.drawText("Score: " + myScore, 10, 880, p3);
+            } else {
+                canvas.drawText("Score: " + myScore, 10, 2400, p3);
+            }
             invalidate();
         }
     }
