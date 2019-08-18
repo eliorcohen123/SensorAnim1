@@ -49,30 +49,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         prefsRand = getSharedPreferences("random", MODE_PRIVATE);
         prefsRand.edit().clear().commit();
 
-        if (myTimer != null) {
-            myTimer.cancel();
-            myTimer = null;
-        }
-
-        myTimer = new Timer();
-        myTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                TimerMethod();
-            }
-        }, 0, myTime);
+        resetTimer();
+        getTimer();
     }
-
-    private void TimerMethod() {
-        this.runOnUiThread(Timer_Tick);
-    }
-
-    private Runnable Timer_Tick = new Runnable() {
-        public void run() {
-            prefsRand = getSharedPreferences("random", MODE_PRIVATE);
-            prefsRand.edit().clear().commit();
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -149,29 +128,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 myTime = myTime - 250;
                 myFinish = 0;
 
-                if (myTimer != null) {
-                    myTimer.cancel();
-                    myTimer = null;
-                }
-
-                myTimer = new Timer();
-                myTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        TimerMethod();
-
-                        myFinish = myFinish + 1;
-                        if (myFinish == 4) {
-                            if (myTimer != null) {
-                                myTimer.cancel();
-                                myTimer = null;
-                            }
-
-                            Intent intentMainActivity = new Intent(GameActivity.this, MainActivity.class);
-                            startActivity(intentMainActivity);
-                        }
-                    }
-                }, 0, myTime);
+                resetTimer();
+                getTimer();
             }
             if (screenWidth - 30 < x || x < 0) {
                 x += (int) event.values[0];
@@ -179,6 +137,48 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             if (screenHeight - 150 < y || y < 0) {
                 y -= (int) event.values[1];
             }
+        }
+    }
+
+    private void getTimer() {
+        myTimer = new Timer();
+        myTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                TimerMethod();
+                getFinish();
+            }
+        }, 0, myTime);
+    }
+
+    private void TimerMethod() {
+        this.runOnUiThread(Timer_Tick);
+    }
+
+    private Runnable Timer_Tick = new Runnable() {
+        public void run() {
+            prefsRand = getSharedPreferences("random", MODE_PRIVATE);
+            prefsRand.edit().clear().commit();
+        }
+    };
+
+    private void resetTimer() {
+        if (myTimer != null) {
+            myTimer.cancel();
+            myTimer = null;
+        }
+    }
+
+    private void getFinish() {
+        myFinish = myFinish + 1;
+        if (myFinish == 3) {
+            if (myTimer != null) {
+                myTimer.cancel();
+                myTimer = null;
+            }
+
+            Intent intentMainActivity = new Intent(GameActivity.this, MainActivity.class);
+            startActivity(intentMainActivity);
         }
     }
 
