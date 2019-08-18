@@ -177,8 +177,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 myTimer = null;
             }
 
-            Intent intentMainActivity = new Intent(GameActivity.this, MainActivity.class);
-            startActivity(intentMainActivity);
+            Intent intent = new Intent(GameActivity.this, AddScore.class);
+            intent.putExtra("score1", myScore);
+            startActivity(intent);
         }
     }
 
