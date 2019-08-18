@@ -35,7 +35,7 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
             final GameFavorites current = mGameList.get(position);
             try {
                 holder.name1.setText(current.getName());
-                holder.score1.setText(current.getScore());
+                holder.score1.setText(String.valueOf(current.getScore()));
             } catch (Exception e) {
 
             }
@@ -53,11 +53,17 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         }
     }
 
-    public void setGames(List<GameFavorites> gameList) {
-        mGameList = gameList;
+    public void setGames(List<GameFavorites> gameFavorites) {
+        mGameList = gameFavorites;
         Collections.sort(mGameList, new Comparator<GameFavorites>() {
             public int compare(GameFavorites obj1, GameFavorites obj2) {
-                return obj2.getScore().compareToIgnoreCase(obj1.getScore()); // To compare string values
+                // ## Ascending order
+//                return obj1.getDistance().compareToIgnoreCase(obj2.getDistance()); // To compare string values
+                return Integer.valueOf(obj2.getScore()).compareTo(obj1.getScore()); // To compare integer values
+
+                // ## Descending order
+//                 return obj1.getCompanyName().compareToIgnoreCase(obj2.getCompanyName()); // To compare string values
+                // return Integer.valueOf(obj2.getId()).compareTo(obj1.getId()); // To compare integer values
             }
         });
         notifyDataSetChanged();

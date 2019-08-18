@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity(tableName = "game_table_scores")
 public class GameFavorites implements Serializable {
 
-    public GameFavorites(@NonNull String name1, @NonNull String score1) {
+    public GameFavorites(@NonNull String name1, @NonNull int score1) {
         this.mName = name1;
         this.mScore = score1;
     }
@@ -27,7 +27,7 @@ public class GameFavorites implements Serializable {
     private String mName;
 
     @ColumnInfo(name = "score")
-    private String mScore;
+    private int mScore;
 
 
     public long getID() {
@@ -48,11 +48,11 @@ public class GameFavorites implements Serializable {
     }
 
     @NonNull
-    public String getScore() {
+    public int getScore() {
         return mScore;
     }
 
-    public void setScore(@NonNull String mScore) {
+    public void setScore(@NonNull int mScore) {
         this.mScore = mScore;
     }
 

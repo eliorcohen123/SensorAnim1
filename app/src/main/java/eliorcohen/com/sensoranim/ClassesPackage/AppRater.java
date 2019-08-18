@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 class AppRater {
 
-    private final static String APP_TITLE = "Guess Who You Are";// App Name
-    private final static String APP_PNAME = "com.elior.guesswhoyouare";// Package Name
+    private final static String APP_TITLE = "Catch Ball";// App Name
+    private final static String APP_PNAME = "eliorcohen.com.sensoranim";// Package Name
 
     private final static int MILLISECONDS_UNTIL_PROMPT = 1;//Min number of milliSeconds
     private final static int LAUNCHES_UNTIL_PROMPT = 3;//Min number of launches

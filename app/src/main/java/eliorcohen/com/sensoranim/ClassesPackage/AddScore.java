@@ -58,9 +58,9 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.textViewOK:
                 String name1 = name.getText().toString();  // GetText of the name
-                String score2 = String.valueOf(myScore);
+                int score1 = myScore;
 
-                GameFavorites gameFavorites = new GameFavorites(name1, score2);
+                GameFavorites gameFavorites = new GameFavorites(name1, score1);
                 gameViewModelFavorites = ViewModelProviders.of(AddScore.this).get(GameViewModelFavorites.class);
                 gameViewModelFavorites.insertPlace(gameFavorites);
 

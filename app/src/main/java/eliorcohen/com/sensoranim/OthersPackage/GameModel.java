@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class GameModel implements Serializable {
 
     private String name;
-    private String score;
+    private int score;
 
     public String getName() {
         return name;
@@ -15,11 +15,11 @@ public class GameModel implements Serializable {
         this.name = name;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
