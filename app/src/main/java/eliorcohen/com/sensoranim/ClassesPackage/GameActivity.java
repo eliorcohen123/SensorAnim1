@@ -27,14 +27,16 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private AnimatedView animatedView;
     private RectF oval1, oval2;
     private Paint p1, p2, p3;
-    private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 0, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2, centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111, distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111, distanceX2222, distanceY2222;
     private double myTime = 5000.0;
     private Random rand;
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
     private Timer myTimer;
     private Context mContext;
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels,
+    private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 0, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1,
+            distanceX2, distanceY2, centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22,
+            centerX111, centerY111, distanceX111, distanceY111, distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111,
+            distanceX2222, distanceY2222, screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels,
             screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     @Override
