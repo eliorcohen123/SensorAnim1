@@ -49,6 +49,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         setContentView(animatedView);
 
+        getPref();
         getDelRandomData();
         resetTimer();
         getTimer();
@@ -79,11 +80,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getTabletMode();
             if (diagonalInches >= 6.5) {
-                x -= (int) event.values[0];
-                y += (int) event.values[1];
+                getSensorEvent(event, 1);
             } else {
-                x -= (int) event.values[0] * 3;
-                y += (int) event.values[1] * 3;
+                getSensorEvent(event, 3);
             }
 
             idNum1 = prefsRand.getInt("random1", 5000);
@@ -96,10 +95,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                     getRandom(screenWidth - 90, screenHeight - 300);
                 }
 
-                editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
-                editorRand.putInt("random1", n1);
-                editorRand.putInt("random2", n2);
-                editorRand.apply();
+                getEditorPrefs(n1, n2);
             }
 
             if (diagonalInches >= 6.5) {
@@ -120,21 +116,32 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 getTimer();
             }
             if (diagonalInches >= 6.5) {
-                if (screenWidth - 30 < x || x < 0) {
-                    x += (int) event.values[0];
-                }
-                if (screenHeight - 150 < y || y < 0) {
-                    y -= (int) event.values[1];
-                }
+                getBounds(event, 30, 150, 0, 1);
             } else {
-                if (screenWidth - 90 < x || x < 0) {
-                    x += (int) event.values[0] * 3;
-                }
-                if (screenHeight - 300 < y || y < 0) {
-                    y -= (int) event.values[1] * 3;
-                }
+                getBounds(event, 90, 300, 0, 3);
             }
         }
+    }
+
+    private void getEditorPrefs(int num1, int num2) {
+        editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
+        editorRand.putInt("random1", num1);
+        editorRand.putInt("random2", num2);
+        editorRand.apply();
+    }
+
+    private void getBounds(SensorEvent event, int numWidth, int numHeight, int numBound, int numTypePhone) {
+        if (screenWidth - numWidth < x || x < numBound) {
+            x += (int) event.values[0] * numTypePhone;
+        }
+        if (screenHeight - numHeight < y || y < numBound) {
+            y -= (int) event.values[1] * numTypePhone;
+        }
+    }
+
+    private void getSensorEvent(SensorEvent event, int num) {
+        x -= (int) event.values[0] * num;
+        y += (int) event.values[1] * num;
     }
 
     private void getRandom(int num1, int num2) {
@@ -217,8 +224,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void getDelRandomData() {
+    private void getPref() {
         prefsRand = getSharedPreferences("random", MODE_PRIVATE);
+    }
+
+    private void getDelRandomData() {
         prefsRand.edit().clear().commit();
     }
 
@@ -245,9 +255,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         @Override
         protected void onDraw(Canvas canvas) {
-            prefsRand = getSharedPreferences("random", MODE_PRIVATE);
-            idNum1 = prefsRand.getInt("random1", 1000);
-            idNum2 = prefsRand.getInt("random2", 1000);
+            getPref();
+            idNum1 = prefsRand.getInt("random1", 5000);
+            idNum2 = prefsRand.getInt("random2", 5000);
 
             getTabletMode();
             if (diagonalInches >= 6.5) {
