@@ -2,24 +2,18 @@ package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +22,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -48,7 +41,6 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
     private GameListAdapterFavorites adapterFavorites;
     private Paint p;
     private DrawerLayout drawer;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DataProviderFavorites dataProvider;
@@ -70,7 +62,6 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        swipeRefreshLayout = findViewById(R.id.swipe_containerFrag);
         recyclerView = findViewById(R.id.game_list);
 
         dataProvider = new DataProviderFavorites();
@@ -102,32 +93,6 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorOrange));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Vibration for 0.1 second
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    vibrator.vibrate(100);
-                }
-
-                finish();
-                startActivity(getIntent());  // Refresh activity
-
-                Toast toast = Toast.makeText(ScoreGame.this, "The list are refreshed!", Toast.LENGTH_SHORT);
-                View view = toast.getView();
-                view.getBackground().setColorFilter(getResources().getColor(R.color.colorLightBlue), PorterDuff.Mode.SRC_IN);
-                TextView text = view.findViewById(android.R.id.message);
-                text.setTextColor(getResources().getColor(R.color.colorDarkBrown));
-                toast.show();  // Toast
-
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
     }
 
     private void myRecyclerView() {

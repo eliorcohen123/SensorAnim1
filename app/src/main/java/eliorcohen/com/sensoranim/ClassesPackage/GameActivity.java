@@ -14,9 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 
 import java.util.Random;
 import java.util.Timer;
@@ -29,8 +27,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private AnimatedView animatedView;
     private RectF oval1, oval2;
     private Paint p1, p2, p3;
-    private int x, y, n1, n2, myScore = 0, myFinish = 0, myTime = 5000, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2, centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111, distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111, distanceX2222, distanceY2222;
-    private double diagonalInches;
+    private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 0, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2, centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111, distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111, distanceX2222, distanceY2222;
+    private double myTime = 5000.0;
     private Random rand;
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
@@ -78,48 +76,31 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         // TODO Auto-generated method stub
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getTabletMode();
-            if (diagonalInches >= 6.5) {
-                getSensorEvent(event, 1);
-            } else {
-                getSensorEvent(event, 3);
-            }
+            myDensity = (screenHeight + screenWidth) / 1300;
+            getSensorEvent(event, myDensity);
 
             idNum1 = prefsRand.getInt("random1", 5000);
             idNum2 = prefsRand.getInt("random2", 5000);
 
             if (idNum1 == 5000 && idNum2 == 5000) {
-                if (diagonalInches >= 6.5) {
-                    getRandom(screenWidth - 30, screenHeight - 150);
-                } else {
-                    getRandom(screenWidth - 90, screenHeight - 300);
-                }
-
+                getRandom(screenWidth - 30 * myDensity, screenHeight - 150 * myDensity);
                 getEditorPrefs(n1, n2);
             }
 
-            if (diagonalInches >= 6.5) {
-                getCalCircle(1);
-            } else {
-                getCalCircle(3);
-            }
+            getCalCircle(myDensity);
 
             if ((distanceX1 * distanceX1) + (distanceY1 * distanceY1) < (distanceX2 * distanceX2) + (distanceY2 * distanceY2) ||
                     (distanceX11 * distanceX11) + (distanceY11 * distanceY11) < (distanceX22 * distanceX22) + (distanceY22 * distanceY22) ||
                     (distanceX111 * distanceX111) + (distanceY111 * distanceY111) < (distanceX222 * distanceX222) + (distanceY222 * distanceY222) ||
                     (distanceX1111 * distanceX1111) + (distanceY1111 * distanceY1111) < (distanceX2222 * distanceX2222) + (distanceY2222 * distanceY2222)) {
                 myScore = myScore + 1;
-                myTime = myTime - 250;
+                myTime = myTime / 1.1;
                 myFinish = 0;
 
                 resetTimer();
                 getTimer();
             }
-            if (diagonalInches >= 6.5) {
-                getBounds(event, 30, 150, 0, 1);
-            } else {
-                getBounds(event, 90, 300, 0, 3);
-            }
+            getBounds(event, 30 * myDensity, 120 * myDensity, 0, myDensity);
         }
     }
 
@@ -188,7 +169,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 TimerMethod();
                 getFinish();
             }
-        }, 0, myTime);
+        }, 0, (int) myTime);
     }
 
     private void TimerMethod() {
@@ -211,10 +192,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private void getFinish() {
         myFinish = myFinish + 1;
         if (myFinish == 3) {
-            if (myTimer != null) {
-                myTimer.cancel();
-                myTimer = null;
-            }
+            resetTimer();
 
             Intent intent = new Intent(GameActivity.this, AddScore.class);
             intent.putExtra("score1", myScore);
@@ -232,20 +210,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         prefsRand.edit().clear().commit();
     }
 
-    private void getTabletMode() {
-        // Tablet/Phone mode
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-
-        float yInches = metrics.heightPixels / metrics.ydpi;
-        float xInches = metrics.widthPixels / metrics.xdpi;
-        diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-    }
-
     private class AnimatedView extends View {
 
-        private int width = 30, height = 30;
+        private int lengthBallXY = 30;
+        private double myScreenHeight = screenHeight * 0.94;
 
         private AnimatedView(Context context) {
             super(context);
@@ -259,39 +227,25 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             idNum1 = prefsRand.getInt("random1", 5000);
             idNum2 = prefsRand.getInt("random2", 5000);
 
-            getTabletMode();
-            if (diagonalInches >= 6.5) {
-                getRectF(1);
-            } else {
-                getRectF(3);
-            }
+            getRectF(myDensity);
+
             p1 = new Paint();
             p1.setColor(Color.BLUE);
             p2 = new Paint();
             p2.setColor(Color.BLACK);
             p3 = new Paint();
             p3.setColor(Color.BLACK);
-
-            if (diagonalInches >= 6.5) {
-                p3.setTextSize(20);
-            } else {
-                p3.setTextSize(60);
-            }
+            p3.setTextSize(20 * myDensity);
 
             canvas.drawOval(oval1, p1);
             canvas.drawOval(oval2, p2);
-
-            if (diagonalInches >= 6.5) {
-                canvas.drawText("Score: " + myScore, 10, 880, p3);
-            } else {
-                canvas.drawText("Score: " + myScore, 10, 2400, p3);
-            }
+            canvas.drawText("Score: " + myScore, 10, (int) myScreenHeight, p3);
             invalidate();
         }
 
         private void getRectF(int num) {
-            oval1 = new RectF(x, y, x + width * num, y + height * num);
-            oval2 = new RectF(idNum1, idNum2, idNum1 + width * num, idNum2 + height * num);
+            oval1 = new RectF(x, y, x + lengthBallXY * num, y + lengthBallXY * num);
+            oval2 = new RectF(idNum1, idNum2, idNum1 + lengthBallXY * num, idNum2 + lengthBallXY * num);
         }
     }
 
