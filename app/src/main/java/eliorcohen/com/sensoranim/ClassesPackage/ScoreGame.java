@@ -86,7 +86,6 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
 
     private void myRecyclerView() {
         try {
-            recyclerView.setAdapter(adapterFavorites);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             if (itemDecoration == null) {
                 itemDecoration = new ItemDecoration(20);
