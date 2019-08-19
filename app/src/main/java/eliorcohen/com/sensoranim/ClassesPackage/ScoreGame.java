@@ -1,16 +1,7 @@
 package eliorcohen.com.sensoranim.ClassesPackage;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,32 +10,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import java.util.List;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
 
 import eliorcohen.com.sensoranim.AdapterPackage.GameListAdapterFavorites;
+import eliorcohen.com.sensoranim.OthersPackage.GameModel;
 import eliorcohen.com.sensoranim.OthersPackage.ItemDecoration;
-import eliorcohen.com.sensoranim.OthersPackage.DataProviderFavorites;
 import eliorcohen.com.sensoranim.R;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.IGameDataReceived;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameViewModelFavorites;
 
-public class ScoreGame extends AppCompatActivity implements IGameDataReceived, NavigationView.OnNavigationItemSelectedListener {
+public class ScoreGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private GameViewModelFavorites mGameViewModelFavorites;
     private RecyclerView recyclerView;
     private GameListAdapterFavorites adapterFavorites;
-    private Paint p;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private DataProviderFavorites dataProvider;
     private ItemDecoration itemDecoration;
+    private Firebase firebase;
+    private ArrayList<GameModel> gameModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +44,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         initUI();
         showUI();
         myRecyclerView();
-        getData();
-        enableSwipe();
+        getReadFirebase();
     }
 
     private void initUI() {
@@ -64,10 +53,10 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         navigationView = findViewById(R.id.nav_view);
         recyclerView = findViewById(R.id.game_list);
 
-        dataProvider = new DataProviderFavorites();
-        adapterFavorites = new GameListAdapterFavorites(this);
+        gameModel = new ArrayList<>();
 
-        p = new Paint();
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase(getString(R.string.FirebaseKey));
     }
 
     private void showUI() {
@@ -106,60 +95,31 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         } catch (Exception e) {
 
         }
-
-        mGameViewModelFavorites = ViewModelProviders.of(this).get(GameViewModelFavorites.class);
     }
 
-    private void getData() {
-        dataProvider.getGame(this);
-    }
-
-    private void enableSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-
+    private void getReadFirebase() {
+        firebase.addValueEventListener(new ValueEventListener() {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                GameFavorites current = adapterFavorites.getGameAtPosition(position);
-
-                if (direction == ItemTouchHelper.RIGHT) {
-                    Toast.makeText(ScoreGame.this, "Deleting...", Toast.LENGTH_LONG).show();
-                    mGameViewModelFavorites.deletePlace(current);
-
-                    Intent intentDeleteData = new Intent(ScoreGame.this, DeleteScore.class);
-                    startActivity(intentDeleteData);
-                }
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                Bitmap icon;
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
-                    View itemView = viewHolder.itemView;
-                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
-                    float width = height / 3;
-
-                    if (dX > 0) {
-                        p.setColor(Color.parseColor("#388E3C"));
-                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
-                        c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.deletedicon);
-                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
-                        c.drawBitmap(icon, null, icon_dest, p);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                gameModel.clear();
+                try {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        GameModel lossModel = snapshot.getValue(GameModel.class);
+                        gameModel.add(lossModel);
                     }
+                    adapterFavorites = new GameListAdapterFavorites(ScoreGame.this, gameModel);
+                    adapterFavorites.setGames(gameModel);
+                    recyclerView.setAdapter(adapterFavorites);
+                } catch (Exception e) {
+
                 }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -170,26 +130,11 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         if (id == R.id.intentMainActivity) {
             Intent intentBackMainActivity = new Intent(ScoreGame.this, MainActivity.class);
             startActivity(intentBackMainActivity);
-        } else if (id == R.id.deleteAllDataScores) {
-            Intent intentDeleteAllData = new Intent(ScoreGame.this, DeleteAllDataFavorites.class);
-            startActivity(intentDeleteAllData);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.END);
         return true;
-    }
-
-    @Override
-    public void onGameDataReceived() {
-        // pass data result to adapter
-        mGameViewModelFavorites.getAllPlaces().observe(this, new Observer<List<GameFavorites>>() {
-            @Override
-            public void onChanged(@Nullable final List<GameFavorites> gameFavorites) {
-                // Update the cached copy of the words in the adapter.
-                adapterFavorites.setGames(gameFavorites);
-            }
-        });
     }
 
 }

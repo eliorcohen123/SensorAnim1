@@ -7,20 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import eliorcohen.com.sensoranim.OthersPackage.GameModel;
 import eliorcohen.com.sensoranim.R;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 
 public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolder> {
 
     private final LayoutInflater mInflater;
-    private List<GameFavorites> mGameList;
+    private List<GameModel> mGameList;
 
-    public GameListAdapterFavorites(Context context) {
+    public GameListAdapterFavorites(Context context, ArrayList<GameModel> gameModel) {
         mInflater = LayoutInflater.from(context);
+        this.mGameList = gameModel;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
     @Override
     public void onBindViewHolder(final GameViewHolder holder, final int position) {
         if (mGameList != null) {
-            final GameFavorites current = mGameList.get(position);
+            final GameModel current = mGameList.get(position);
             try {
                 holder.name1.setText(current.getName());
                 holder.score1.setText(String.valueOf(current.getScore()));
@@ -53,10 +55,10 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         }
     }
 
-    public void setGames(List<GameFavorites> gameFavorites) {
+    public void setGames(List<GameModel> gameFavorites) {
         mGameList = gameFavorites;
-        Collections.sort(mGameList, new Comparator<GameFavorites>() {
-            public int compare(GameFavorites obj1, GameFavorites obj2) {
+        Collections.sort(mGameList, new Comparator<GameModel>() {
+            public int compare(GameModel obj1, GameModel obj2) {
                 // ## Ascending order
 //                return obj1.getDistance().compareToIgnoreCase(obj2.getDistance()); // To compare string values
                 return Integer.valueOf(obj2.getScore()).compareTo(obj1.getScore()); // To compare integer values
@@ -78,7 +80,7 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         else return 0;
     }
 
-    public GameFavorites getGameAtPosition(int position) {
+    public GameModel getGameAtPosition(int position) {
         return mGameList.get(position);
     }
 

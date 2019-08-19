@@ -1,25 +1,27 @@
 package eliorcohen.com.sensoranim.ClassesPackage;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
+import java.util.Date;
+
 import eliorcohen.com.sensoranim.R;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
-import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameViewModelFavorites;
 
 public class AddScore extends AppCompatActivity implements View.OnClickListener {
 
-    private GameViewModelFavorites gameViewModelFavorites;
     private EditText name;
     private TextView textViewOK, score;
     private Button btnBack;
     private int myScore;
+    private Firebase firebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
         textViewOK = findViewById(R.id.textViewOK);
 
         btnBack = findViewById(R.id.btnBack);
+
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase(getString(R.string.FirebaseKey));
     }
 
     private void initListeners() {
@@ -50,7 +55,7 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void getData() {
-        score.setText(String.valueOf(myScore));  // GetSerializable of myScore
+        score.setText(String.valueOf(myScore));
     }
 
     @Override
@@ -60,15 +65,20 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
                 String name1 = name.getText().toString();  // GetText of the name
                 int score1 = myScore;
 
-                GameFavorites gameFavorites = new GameFavorites(name1, score1);
-                gameViewModelFavorites = ViewModelProviders.of(AddScore.this).get(GameViewModelFavorites.class);
-                gameViewModelFavorites.insertPlace(gameFavorites);
+                if (TextUtils.isEmpty(name1)) {  // If the text are empty the score will not be approved
+                    name.setError("Name is required...");  // Print text of error if the text are empty
+                } else {
+                    Date date = new Date();
+                    String time = date.toString();
+                    firebase.child(time).child("name").setValue(name1);
+                    firebase.child(time).child("score").setValue(score1);
 
 //                // Pass from AddScore to ScoreGame
-                Intent intentAddInternetToMain = new Intent(AddScore.this, ScoreGame.class);
-                startActivity(intentAddInternetToMain);
+                    Intent intentAddInternetToMain = new Intent(AddScore.this, ScoreGame.class);
+                    startActivity(intentAddInternetToMain);
 
-                finish();
+                    finish();
+                }
                 break;
             case R.id.btnBack:
                 Intent intentMainActivity = new Intent(AddScore.this, MainActivity.class);
