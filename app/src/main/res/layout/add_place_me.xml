@@ -17,7 +17,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/custom_button"
         android:gravity="center"
-        android:text="Add Your Place"
+        android:text="Add Your Score"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
