@@ -100,7 +100,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 resetTimer();
                 getTimer();
             }
-            getBounds(event, 30 * myDensity, 120 * myDensity, myDensity);
+            getBounds(event, screenWidth - 30 * myDensity, screenHeight - 120 * myDensity, myDensity);
         }
     }
 
@@ -112,10 +112,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void getBounds(SensorEvent event, int numWidth, int numHeight, int numTypePhone) {
-        if (screenWidth - numWidth < x || x < 0) {
+        if (numWidth < x || x < 0) {
             x += (int) event.values[0] * numTypePhone;
         }
-        if (screenHeight - numHeight < y || y < 0) {
+        if (numHeight < y || y < 0) {
             y -= (int) event.values[1] * numTypePhone;
         }
     }
