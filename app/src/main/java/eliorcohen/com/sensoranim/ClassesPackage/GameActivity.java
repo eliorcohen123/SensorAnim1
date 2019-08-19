@@ -83,7 +83,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             idNum2 = prefsRand.getInt("random2", 5000);
 
             if (idNum1 == 5000 && idNum2 == 5000) {
-                getRandom(screenWidth - 30 * myDensity, screenHeight - 150 * myDensity);
+                getRandom(screenWidth - 30 * myDensity, screenHeight - 120 * myDensity);
                 getEditorPrefs(n1, n2);
             }
 
