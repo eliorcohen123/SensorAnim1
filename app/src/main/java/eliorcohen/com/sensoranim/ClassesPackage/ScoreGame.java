@@ -35,7 +35,7 @@ import java.util.List;
 
 import eliorcohen.com.sensoranim.AdapterPackage.GameListAdapterFavorites;
 import eliorcohen.com.sensoranim.OthersPackage.ItemDecoration;
-import eliorcohen.com.sensoranim.OthersPackage.NetworkDataProviderFavorites;
+import eliorcohen.com.sensoranim.OthersPackage.DataProviderFavorites;
 import eliorcohen.com.sensoranim.R;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.IGameDataReceived;
@@ -51,7 +51,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private NetworkDataProviderFavorites networkDataProviderFavorites;
+    private DataProviderFavorites dataProvider;
     private ItemDecoration itemDecoration;
 
     @Override
@@ -73,7 +73,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
         swipeRefreshLayout = findViewById(R.id.swipe_containerFrag);
         recyclerView = findViewById(R.id.game_list);
 
-        networkDataProviderFavorites = new NetworkDataProviderFavorites();
+        dataProvider = new DataProviderFavorites();
         adapterFavorites = new GameListAdapterFavorites(this);
 
         p = new Paint();
@@ -146,7 +146,7 @@ public class ScoreGame extends AppCompatActivity implements IGameDataReceived, N
     }
 
     private void getData() {
-        networkDataProviderFavorites.getGameByLocation(this);
+        dataProvider.getGame(this);
     }
 
     private void enableSwipe() {

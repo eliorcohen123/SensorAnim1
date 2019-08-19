@@ -8,9 +8,9 @@ import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.GameRepositoryFavorites;
 import eliorcohen.com.sensoranim.RoomFavoritesPackage.IGameDataReceived;
 
-public class NetworkDataProviderFavorites {
+public class DataProviderFavorites {
 
-    public void getGameByLocation(IGameDataReceived resultListener_) {
+    public void getGame(IGameDataReceived resultListener_) {
 
         //go get data from google API
         // take time....
