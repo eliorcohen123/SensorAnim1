@@ -15,6 +15,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 
 import java.util.Random;
 import java.util.Timer;
@@ -59,6 +60,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
 
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
