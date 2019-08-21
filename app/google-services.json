@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "201658544624-es3n6qpu9m2np7bgi5e2kmub22uv86rn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eliorcohen.com.sensoranim",
+            "certificate_hash": "761d81e72981310e1eca8cf6ec7a1dc2851d9c91"
+          }
+        },
+        {
           "client_id": "201658544624-vi9ocsrcmbtmvjg2os683rhlgon7s8qe.apps.googleusercontent.com",
           "client_type": 3
         }
