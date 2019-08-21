@@ -32,7 +32,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private RectF oval1, oval2;
     private Paint p1, p2, p3, p4, p5;
     private String startTime;
-    private double myTime = 5000.0, seconds;
+    private double myTime = 5000.0;
     private Random rand;
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
