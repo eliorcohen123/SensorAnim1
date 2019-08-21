@@ -37,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
     private Timer myTimer;
+    private CountDownTimer countDownTimer;
     private Context mContext;
     private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 3, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2,
             centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111,
@@ -55,6 +56,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         getPref();
         getDelRandomData();
+        resetCountDownTimer();
         resetTimer();
         getTimer();
     }
@@ -186,12 +188,20 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Runnable Timer_Tick = new Runnable() {
         public void run() {
             getDelRandomData();
+            resetCountDownTimer();
             getMySeconds();
         }
     };
 
+    private void resetCountDownTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+    }
+
     private void getMySeconds() {
-        new CountDownTimer((long) myTime, 1) {
+        countDownTimer = new CountDownTimer((long) myTime, 1) {
             public void onTick(long millisUntilFinished) {
                 double seconds = millisUntilFinished / 1000;
                 startTime = String.valueOf((seconds + millisUntilFinished) / 1000);
