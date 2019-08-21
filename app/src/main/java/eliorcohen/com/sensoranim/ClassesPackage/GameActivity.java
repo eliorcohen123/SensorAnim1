@@ -282,6 +282,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             oval1 = new RectF(x, y, x + lengthBallXY * num, y + lengthBallXY * num);
             oval2 = new RectF(idNum1, idNum2, idNum1 + lengthBallXY * num, idNum2 + lengthBallXY * num);
         }
+
     }
 
 }
