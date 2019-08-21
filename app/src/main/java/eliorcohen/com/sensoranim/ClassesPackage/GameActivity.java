@@ -273,8 +273,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             canvas.drawOval(oval2, p2);
             canvas.drawText("Score: " + myScore, 10, (int) myScreenHeight, p3);
             canvas.drawText("Time: " + startTime, (int) myScreenWidth, (int) myScreenHeight, p4);
-            canvas.drawText("Life(s): " + myFinish, (int) myScreenWidth * 2, (int) myScreenHeight, p5)
-            ;
+            canvas.drawText("Life(s): " + myFinish, (int) myScreenWidth * 2, (int) myScreenHeight, p5);
 
             invalidate();
         }
