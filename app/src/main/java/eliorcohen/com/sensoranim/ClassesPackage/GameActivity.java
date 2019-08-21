@@ -13,7 +13,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -27,14 +30,15 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Sensor sensor;
     private AnimatedView animatedView;
     private RectF oval1, oval2;
-    private Paint p1, p2, p3;
-    private double myTime = 5000.0;
+    private Paint p1, p2, p3, p4, p5;
+    private String startTime;
+    private double myTime = 5000.0, seconds;
     private Random rand;
     private SharedPreferences.Editor editorRand;
     private SharedPreferences prefsRand;
     private Timer myTimer;
     private Context mContext;
-    private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 0, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2,
+    private int x, y, n1, n2, myDensity, myScore = 0, myFinish = 3, idNum1, idNum2, centerX1, centerY1, distanceX1, distanceY1, distanceX2, distanceY2,
             centerX11, centerY11, distanceX11, distanceY11, distanceX22, distanceY22, centerX111, centerY111, distanceX111, distanceY111,
             distanceX222, distanceY222, centerX1111, centerY1111, distanceX1111, distanceY1111, distanceX2222, distanceY2222,
             screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels, screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -98,7 +102,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                     (distanceX1111 * distanceX1111) + (distanceY1111 * distanceY1111) < (distanceX2222 * distanceX2222) + (distanceY2222 * distanceY2222)) {
                 myScore = myScore + 1;
                 myTime = myTime / 1.1;
-                myFinish = 0;
+                myFinish = 3;
 
                 resetTimer();
                 getTimer();
@@ -182,8 +186,26 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Runnable Timer_Tick = new Runnable() {
         public void run() {
             getDelRandomData();
+            getMySeconds();
         }
     };
+
+    private void getMySeconds() {
+        new CountDownTimer((long) myTime, 1) {
+            public void onTick(long millisUntilFinished) {
+                double seconds = millisUntilFinished / 1000;
+                startTime = String.valueOf((seconds + millisUntilFinished) / 1000);
+
+                if (myFinish == 0) {
+                    startTime = "0.00";
+                }
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
+    }
 
     private void resetTimer() {
         if (myTimer != null) {
@@ -193,8 +215,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void getFinish() {
-        myFinish = myFinish + 1;
-        if (myFinish == 3) {
+        myFinish = myFinish - 1;
+        if (myFinish == 0) {
             resetTimer();
 
             Intent intent = new Intent(GameActivity.this, AddScore.class);
@@ -217,6 +239,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         private int lengthBallXY = 30;
         private double myScreenHeight = screenHeight * 0.94;
+        private double myScreenWidth = screenWidth * 0.33;
 
         private AnimatedView(Context context) {
             super(context);
@@ -225,7 +248,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        protected void onDraw(final Canvas canvas) {
             getPref();
             idNum1 = prefsRand.getInt("random1", 5000);
             idNum2 = prefsRand.getInt("random2", 5000);
@@ -239,10 +262,20 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             p3 = new Paint();
             p3.setColor(Color.BLACK);
             p3.setTextSize(20 * myDensity);
+            p4 = new Paint();
+            p4.setColor(Color.BLACK);
+            p4.setTextSize(20 * myDensity);
+            p5 = new Paint();
+            p5.setColor(Color.BLACK);
+            p5.setTextSize(20 * myDensity);
 
             canvas.drawOval(oval1, p1);
             canvas.drawOval(oval2, p2);
             canvas.drawText("Score: " + myScore, 10, (int) myScreenHeight, p3);
+            canvas.drawText("Time: " + startTime, (int) myScreenWidth, (int) myScreenHeight, p4);
+            canvas.drawText("Life(s): " + myFinish, (int) myScreenWidth * 2, (int) myScreenHeight, p5)
+            ;
+
             invalidate();
         }
 
