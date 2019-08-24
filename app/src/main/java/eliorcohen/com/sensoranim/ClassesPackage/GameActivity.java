@@ -102,7 +102,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                     (distanceX11 * distanceX11) + (distanceY11 * distanceY11) < (distanceX22 * distanceX22) + (distanceY22 * distanceY22) ||
                     (distanceX111 * distanceX111) + (distanceY111 * distanceY111) < (distanceX222 * distanceX222) + (distanceY222 * distanceY222) ||
                     (distanceX1111 * distanceX1111) + (distanceY1111 * distanceY1111) < (distanceX2222 * distanceX2222) + (distanceY2222 * distanceY2222)) {
-                myScore = myScore + 1;
+                myScore++;
                 myTime = myTime / 1.1;
                 myFinish = 3;
 
