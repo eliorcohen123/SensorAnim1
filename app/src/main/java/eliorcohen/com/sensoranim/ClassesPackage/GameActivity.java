@@ -124,6 +124,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         if (numWidth < x || x < 0) {
             x += (int) event.values[0] * numTypePhone;
         }
+
         if (numHeight < y || y < 0) {
             y -= (int) event.values[1] * numTypePhone;
         }
