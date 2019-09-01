@@ -80,10 +80,6 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         else return 0;
     }
 
-    public GameModel getGameAtPosition(int position) {
-        return mGameList.get(position);
-    }
-
     private void setFadeAnimation(View view) {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(1500);
