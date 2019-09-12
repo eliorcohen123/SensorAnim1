@@ -186,12 +186,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         this.runOnUiThread(Timer_Tick);
     }
 
-    private Runnable Timer_Tick = new Runnable() {
-        public void run() {
-            getDelRandomData();
-            resetCountDownTimer();
-            getMySeconds();
-        }
+    private Runnable Timer_Tick = () -> {
+        getDelRandomData();
+        resetCountDownTimer();
+        getMySeconds();
     };
 
     private void resetCountDownTimer() {

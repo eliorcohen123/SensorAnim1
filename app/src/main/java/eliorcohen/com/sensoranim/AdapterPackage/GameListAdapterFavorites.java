@@ -41,12 +41,6 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
             } catch (Exception e) {
 
             }
-            holder.linearLayout1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
 
             setFadeAnimation(holder.itemView);
         } else {
@@ -57,16 +51,14 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
 
     public void setGames(List<GameModel> gameFavorites) {
         mGameList = gameFavorites;
-        Collections.sort(mGameList, new Comparator<GameModel>() {
-            public int compare(GameModel obj1, GameModel obj2) {
-                // ## Ascending order
+        Collections.sort(mGameList, (obj1, obj2) -> {
+            // ## Ascending order
 //                return obj1.getDistance().compareToIgnoreCase(obj2.getDistance()); // To compare string values
-                return Integer.valueOf(obj2.getScore()).compareTo(obj1.getScore()); // To compare integer values
+            return Integer.valueOf(obj2.getScore()).compareTo(obj1.getScore()); // To compare integer values
 
-                // ## Descending order
+            // ## Descending order
 //                 return obj1.getCompanyName().compareToIgnoreCase(obj2.getCompanyName()); // To compare string values
-                // return Integer.valueOf(obj2.getId()).compareTo(obj1.getId()); // To compare integer values
-            }
+            // return Integer.valueOf(obj2.getId()).compareTo(obj1.getId()); // To compare integer values
         });
         notifyDataSetChanged();
     }
