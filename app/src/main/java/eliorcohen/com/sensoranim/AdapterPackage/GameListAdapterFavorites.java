@@ -9,7 +9,6 @@ import android.view.animation.AlphaAnimation;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import eliorcohen.com.sensoranim.OthersPackage.GameModel;
