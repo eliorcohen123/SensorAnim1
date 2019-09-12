@@ -1,6 +1,7 @@
 package eliorcohen.com.sensoranim.ClassesPackage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import eliorcohen.com.sensoranim.R;
+import guy4444.smartrate.SmartRate;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initUI();
         initListeners();
+        initAppRater();
         getGoogleAnalytics();
     }
 
@@ -32,12 +35,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnShowScores = findViewById(R.id.btnShowScores);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        AppRater.app_launched(this);
     }
 
     private void initListeners() {
         btnGame.setOnClickListener(this);
         btnShowScores.setOnClickListener(this);
+    }
+
+    private void initAppRater() {
+        SmartRate.Rate(MainActivity.this
+                , "Rate Us"
+                , "Tell others what you think about this app"
+                , "Continue"
+                , "Please take a moment and rate us on Google Play"
+                , "click here"
+                , "Ask me later"
+                , "Never ask again"
+                , "Cancel"
+                , "Thanks for the feedback"
+                , Color.parseColor("#2196F3")
+                , 5
+                , 1
+                , 1
+        );
     }
 
     private void getGoogleAnalytics() {
