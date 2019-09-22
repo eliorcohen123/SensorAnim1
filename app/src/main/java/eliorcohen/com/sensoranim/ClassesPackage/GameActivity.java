@@ -115,9 +115,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private void getEditorPrefs(int num1, int num2) {
         editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
-        editorRand.putInt("random1", num1);
-        editorRand.putInt("random2", num2);
-        editorRand.apply();
+        editorRand.putInt("random1", num1).putInt("random2", num2).apply();
     }
 
     private void getBounds(SensorEvent event, int numWidth, int numHeight, int numTypePhone) {
