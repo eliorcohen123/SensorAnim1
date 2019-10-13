@@ -257,9 +257,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         @Override
         protected void onDraw(final Canvas canvas) {
             getPref();
-            idNum1 = prefsRand.getInt("random1", 5000);
-            idNum2 = prefsRand.getInt("random2", 5000);
-
             getRectF(myDensity);
 
             p1 = new Paint();
