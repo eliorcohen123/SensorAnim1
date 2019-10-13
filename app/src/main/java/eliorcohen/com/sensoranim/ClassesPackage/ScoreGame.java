@@ -33,7 +33,7 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
     private NavigationView navigationView;
     private ItemDecoration itemDecoration;
     private Firebase firebase;
-    private ArrayList<GameModel> gameModel;
+    private ArrayList<GameModel> gameModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
         navigationView = findViewById(R.id.nav_view);
         recyclerView = findViewById(R.id.game_list);
 
-        gameModel = new ArrayList<>();
+        gameModelList = new ArrayList<>();
 
         Firebase.setAndroidContext(this);
         firebase = new Firebase(getString(R.string.FirebaseKey));
@@ -95,14 +95,14 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
         firebase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                gameModel.clear();
+                gameModelList.clear();
                 try {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        GameModel lossModel = snapshot.getValue(GameModel.class);
-                        gameModel.add(lossModel);
+                        GameModel gameModel = snapshot.getValue(GameModel.class);
+                        gameModelList.add(gameModel);
                     }
-                    adapterFavorites = new GameListAdapterFavorites(ScoreGame.this, gameModel);
-                    adapterFavorites.setGames(gameModel);
+                    adapterFavorites = new GameListAdapterFavorites(ScoreGame.this, gameModelList);
+                    adapterFavorites.setGames(gameModelList);
                     recyclerView.setAdapter(adapterFavorites);
                 } catch (Exception e) {
 
