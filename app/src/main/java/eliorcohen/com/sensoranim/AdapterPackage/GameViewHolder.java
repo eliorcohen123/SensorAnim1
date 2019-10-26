@@ -8,8 +8,7 @@ import eliorcohen.com.sensoranim.R;
 
 class GameViewHolder extends RecyclerView.ViewHolder {
 
-    TextView name1;
-    TextView score1;
+    TextView name1, score1;
 
     GameViewHolder(View itemView) {
         super(itemView);
