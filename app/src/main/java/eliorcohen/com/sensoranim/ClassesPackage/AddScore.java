@@ -36,6 +36,7 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
     private void initUI() {
         // GetSerializable for the texts
         Bundle extras = getIntent().getExtras();
+        assert extras != null;
         myScore = extras.getInt("score1");
 
         name = findViewById(R.id.editTextName);  // ID of the name
