@@ -1,7 +1,10 @@
 package eliorcohen.com.sensoranim.AdapterPackage;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +34,23 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
     }
 
     @Override
-    public void onBindViewHolder(final GameViewHolder holder, final int position) {
+    public void onBindViewHolder(GameViewHolder holder, final int position) {
         if (mGameList != null) {
-            final GameModel current = mGameList.get(position);
+            GameModel current = mGameList.get(position);
             try {
                 holder.name1.setText(current.getName());
                 holder.score1.setText(String.valueOf(current.getScore()));
+
+                if (getItemId(position) == 0) {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.picStat.setImageResource(R.drawable.stpic);
+                } else if (getItemId(position) == 1) {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#000033"));
+                    holder.picStat.setImageResource(R.drawable.ndpic);
+                } else if (getItemId(position) == 2) {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#1d8fba"));
+                    holder.picStat.setImageResource(R.drawable.rdpic);
+                }
             } catch (Exception e) {
 
             }
@@ -53,7 +67,7 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         Collections.sort(mGameList, (obj1, obj2) -> {
             // ## Ascending order
 //                return obj1.getDistance().compareToIgnoreCase(obj2.getDistance()); // To compare string values
-            return Integer.valueOf(obj2.getScore()).compareTo(obj1.getScore()); // To compare integer values
+            return Integer.compare(obj2.getScore(), obj1.getScore()); // To compare integer values
 
             // ## Descending order
 //                 return obj1.getCompanyName().compareToIgnoreCase(obj2.getCompanyName()); // To compare string values
@@ -69,6 +83,16 @@ public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolde
         if (mGameList != null)
             return mGameList.size();
         else return 0;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     private void setFadeAnimation(View view) {
