@@ -19,15 +19,15 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 
-import eliorcohen.com.sensoranim.AdapterPackage.GameListAdapterFavorites;
-import eliorcohen.com.sensoranim.OthersPackage.GameModel;
+import eliorcohen.com.sensoranim.CustomAdaptersPackage.CustomAdapterFavorites;
+import eliorcohen.com.sensoranim.ModelsPackage.GameModel;
 import eliorcohen.com.sensoranim.OthersPackage.ItemDecoration;
 import eliorcohen.com.sensoranim.R;
 
-public class ScoreGame extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ScoreGameActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerView;
-    private GameListAdapterFavorites adapterFavorites;
+    private CustomAdapterFavorites adapterFavorites;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -101,7 +101,7 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
                         GameModel gameModel = snapshot.getValue(GameModel.class);
                         gameModelList.add(gameModel);
                     }
-                    adapterFavorites = new GameListAdapterFavorites(ScoreGame.this, gameModelList);
+                    adapterFavorites = new CustomAdapterFavorites(ScoreGameActivity.this, gameModelList);
                     adapterFavorites.setGames(gameModelList);
                     recyclerView.setAdapter(adapterFavorites);
                 } catch (Exception e) {
@@ -122,7 +122,7 @@ public class ScoreGame extends AppCompatActivity implements NavigationView.OnNav
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.intentMainActivity) {
-            Intent intentBackMainActivity = new Intent(ScoreGame.this, MainActivity.class);
+            Intent intentBackMainActivity = new Intent(ScoreGameActivity.this, MainActivity.class);
             startActivity(intentBackMainActivity);
         }
 

@@ -226,7 +226,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         if (myFinish == 0) {
             resetTimer();
 
-            Intent intent = new Intent(GameActivity.this, AddScore.class);
+            Intent intent = new Intent(GameActivity.this, AddScoreActivity.class);
             intent.putExtra("score1", myScore);
             startActivity(intent);
 

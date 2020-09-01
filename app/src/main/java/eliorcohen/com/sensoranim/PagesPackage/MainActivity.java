@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentNewGame);
                 break;
             case R.id.btnShowScores:
-                Intent intentScores = new Intent(this, ScoreGame.class);
+                Intent intentScores = new Intent(this, ScoreGameActivity.class);
                 startActivity(intentScores);
                 break;
         }

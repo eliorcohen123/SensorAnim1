@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim.AdapterPackage;
+package eliorcohen.com.sensoranim.CustomAdaptersPackage;
 
 import android.content.Context;
 
@@ -14,27 +14,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import eliorcohen.com.sensoranim.OthersPackage.GameModel;
+import eliorcohen.com.sensoranim.ModelsPackage.GameModel;
 import eliorcohen.com.sensoranim.R;
 
-public class GameListAdapterFavorites extends RecyclerView.Adapter<GameViewHolder> {
+public class CustomAdapterFavorites extends RecyclerView.Adapter<ViewHolderFavorites> {
 
     private final LayoutInflater mInflater;
     private List<GameModel> mGameList;
 
-    public GameListAdapterFavorites(Context context, ArrayList<GameModel> gameModel) {
+    public CustomAdapterFavorites(Context context, ArrayList<GameModel> gameModel) {
         mInflater = LayoutInflater.from(context);
         this.mGameList = gameModel;
     }
 
     @Override
-    public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolderFavorites onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item_score, parent, false);
-        return new GameViewHolder(itemView);
+        return new ViewHolderFavorites(itemView);
     }
 
     @Override
-    public void onBindViewHolder(GameViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolderFavorites holder, final int position) {
         if (mGameList != null) {
             GameModel current = mGameList.get(position);
             try {

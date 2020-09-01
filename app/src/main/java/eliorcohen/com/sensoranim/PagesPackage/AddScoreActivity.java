@@ -15,7 +15,7 @@ import java.util.Date;
 
 import eliorcohen.com.sensoranim.R;
 
-public class AddScore extends AppCompatActivity implements View.OnClickListener {
+public class AddScoreActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText name;
     private TextView textViewOK, score;
@@ -75,14 +75,14 @@ public class AddScore extends AppCompatActivity implements View.OnClickListener 
                     firebase.child(time).child("score").setValue(score1);
 
 //                // Pass from AddScore to ScoreGame
-                    Intent intentAddInternetToMain = new Intent(AddScore.this, ScoreGame.class);
+                    Intent intentAddInternetToMain = new Intent(AddScoreActivity.this, ScoreGameActivity.class);
                     startActivity(intentAddInternetToMain);
 
                     finish();
                 }
                 break;
             case R.id.btnBack:
-                Intent intentMainActivity = new Intent(AddScore.this, MainActivity.class);
+                Intent intentMainActivity = new Intent(AddScoreActivity.this, MainActivity.class);
                 startActivity(intentMainActivity);
                 break;
         }
