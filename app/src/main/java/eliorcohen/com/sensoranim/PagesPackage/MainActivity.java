@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim.ClassesPackage;
+package eliorcohen.com.sensoranim.PagesPackage;
 
 import android.content.Intent;
 import android.graphics.Color;

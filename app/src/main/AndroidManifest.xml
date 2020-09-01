@@ -18,7 +18,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ClassesPackage.MainActivity"
+            android:name=".PagesPackage.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClassesPackage.GameActivity"
+            android:name=".PagesPackage.GameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ClassesPackage.AddScore"
+            android:name=".PagesPackage.AddScore"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ClassesPackage.ScoreGame"
+            android:name=".PagesPackage.ScoreGame"
             android:screenOrientation="portrait" />
 
         <service android:name=".OthersPackage.MyFirebaseMessagingService">

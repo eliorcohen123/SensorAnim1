@@ -1,4 +1,4 @@
-package eliorcohen.com.sensoranim.ClassesPackage;
+package eliorcohen.com.sensoranim.PagesPackage;
 
 import android.content.Context;
 import android.content.Intent;

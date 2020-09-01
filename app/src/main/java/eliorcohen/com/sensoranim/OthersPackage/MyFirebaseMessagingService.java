@@ -14,7 +14,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import eliorcohen.com.sensoranim.ClassesPackage.MainActivity;
+import eliorcohen.com.sensoranim.PagesPackage.MainActivity;
 import eliorcohen.com.sensoranim.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
