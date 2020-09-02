@@ -26,7 +26,7 @@ public class AddScoreActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_place_me);
+        setContentView(R.layout.activity_add_score);
 
         initUI();
         initListeners();
