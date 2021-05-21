@@ -2,7 +2,6 @@ package eliorcohen.com.sensoranim.PagesPackage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +16,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.CountDownTimer;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -34,8 +34,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private String startTime;
     private double myTime = 5000.0;
     private Random rand;
-    private SharedPreferences.Editor editorRand;
-    private SharedPreferences prefsRand;
     private Timer myTimer;
     private CountDownTimer countDownTimer;
     private Context mContext;
@@ -54,8 +52,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         setContentView(animatedView);
 
-        getPref();
-        getDelRandomData();
+        removeRandData();
         resetCountDownTimer();
         resetTimer();
         getTimer();
@@ -86,13 +83,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         // TODO Auto-generated method stub
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             myDensity = (screenHeight + screenWidth) / 1300;
+
             getSensorEvent(event, myDensity);
 
-            idNum1 = prefsRand.getInt("random1", 5000);
-            idNum2 = prefsRand.getInt("random2", 5000);
-
-            if (idNum1 == 5000 && idNum2 == 5000) {
-                getRandom(screenWidth - 30 * myDensity, screenHeight - 120 * myDensity);
+            if (idNum1 == -1 && idNum2 == -1) {
+                getRandom(screenWidth - 30 * myDensity, screenHeight - 150 * myDensity);
                 getEditorPrefs(n1, n2);
             }
 
@@ -109,13 +104,14 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 resetTimer();
                 getTimer();
             }
-            getBounds(event, screenWidth - 30 * myDensity, screenHeight - 120 * myDensity, myDensity);
+
+            getBounds(event, screenWidth - 30 * myDensity, screenHeight - 150 * myDensity, myDensity);
         }
     }
 
     private void getEditorPrefs(int num1, int num2) {
-        editorRand = getSharedPreferences("random", MODE_PRIVATE).edit();
-        editorRand.putInt("random1", num1).putInt("random2", num2).apply();
+        idNum1 = num1;
+        idNum2 = num2;
     }
 
     private void getBounds(SensorEvent event, int numWidth, int numHeight, int numTypePhone) {
@@ -174,18 +170,18 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         myTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                TimerMethod();
+                timerMethod();
                 getFinish();
             }
         }, 0, (int) myTime);
     }
 
-    private void TimerMethod() {
-        this.runOnUiThread(Timer_Tick);
+    private void timerMethod() {
+        runOnUiThread(timerTick);
     }
 
-    private Runnable Timer_Tick = () -> {
-        getDelRandomData();
+    private final Runnable timerTick = () -> {
+        removeRandData();
         resetCountDownTimer();
         getMySeconds();
     };
@@ -234,19 +230,21 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void getPref() {
-        prefsRand = getSharedPreferences("random", MODE_PRIVATE);
+    private void removeRandData() {
+        idNum1 = -1;
+        idNum2 = -1;
     }
 
-    private void getDelRandomData() {
-        prefsRand.edit().clear().commit();
+    private int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     private class AnimatedView extends View {
 
-        private int lengthBallXY = 30;
-        private double myScreenHeight = screenHeight * 0.94;
-        private double myScreenWidth = screenWidth * 0.33;
+        private final int lengthBallXY = 30;
+        private final double myScreenHeight = screenHeight - 90;
+        private final double myScreenWidth = screenWidth * 0.33;
 
         private AnimatedView(Context context) {
             super(context);
@@ -256,7 +254,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         @Override
         protected void onDraw(final Canvas canvas) {
-            getPref();
             getRectF(myDensity);
 
             p1 = new Paint();
@@ -275,9 +272,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             canvas.drawOval(oval1, p1);
             canvas.drawOval(oval2, p2);
-            canvas.drawText("Score: " + myScore, 10, (int) myScreenHeight, p3);
-            canvas.drawText("Time: " + startTime, (int) myScreenWidth, (int) myScreenHeight, p4);
-            canvas.drawText("Life(s): " + myFinish, (int) myScreenWidth * 2, (int) myScreenHeight, p5);
+            canvas.drawText("Score: " + myScore, dpToPx(10), (int) myScreenHeight, p3);
+            canvas.drawText("Time: " + startTime, (int) myScreenWidth + dpToPx(10), (int) myScreenHeight, p4);
+            canvas.drawText("Life(s): " + myFinish, (int) myScreenWidth * 2 + dpToPx(10), (int) myScreenHeight, p5);
 
             invalidate();
         }
