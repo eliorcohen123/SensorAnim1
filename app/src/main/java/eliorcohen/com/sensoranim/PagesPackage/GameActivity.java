@@ -88,7 +88,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             if (idNum1 == -1 && idNum2 == -1) {
                 getRandom(screenWidth - 30 * myDensity, screenHeight - 150 * myDensity);
-                getEditorPrefs(n1, n2);
+                getRandData(n1, n2);
             }
 
             getCalCircle(myDensity);
@@ -109,9 +109,14 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void getEditorPrefs(int num1, int num2) {
+    private void getRandData(int num1, int num2) {
         idNum1 = num1;
         idNum2 = num2;
+    }
+
+    private void removeRandData() {
+        idNum1 = -1;
+        idNum2 = -1;
     }
 
     private void getBounds(SensorEvent event, int numWidth, int numHeight, int numTypePhone) {
@@ -228,11 +233,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             finish();
         }
-    }
-
-    private void removeRandData() {
-        idNum1 = -1;
-        idNum2 = -1;
     }
 
     private int dpToPx(int dp) {
